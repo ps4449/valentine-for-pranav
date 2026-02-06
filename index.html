@@ -97,7 +97,7 @@
             position: absolute;
             width: 45px;
             height: 45px;
-            background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+            background: linear-gradient(135deg, #e63946, #c1121f);
             border-radius: 50% 0 50% 0;
             left: 50%;
             top: 50%;
@@ -159,12 +159,29 @@
             font-size: 1rem;
             color: #d63384;
             opacity: 0.8;
-            animation: bounce 2s infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
-        @keyframes bounce {
+        .arrow {
+            font-size: 1.5rem;
+            animation: pointUp 1s ease-in-out infinite;
+        }
+
+        .hint-text {
+            animation: pulse-text 2s infinite;
+        }
+
+        @keyframes pointUp {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes pulse-text {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
         }
 
         .valentine-question {
@@ -333,7 +350,11 @@
             <div class="leaf leaf-right"></div>
         </div>
 
-        <p class="click-hint" id="clickHint">Click the flower!</p>
+        <div class="click-hint" id="clickHint">
+            <span class="arrow">👆</span>
+            <span class="hint-text">Click the flower!</span>
+            <span class="arrow">👆</span>
+        </div>
 
         <div class="valentine-question" id="question">
             <p class="question-text">Will you be my Valentine?</p>
@@ -346,7 +367,7 @@
 
     <div class="celebration" id="celebration">
         <div class="hearts" id="hearts"></div>
-        <p class="celebration-text">Yay! I love you, Dandu!</p>
+        <p class="celebration-text">Yay! I love you, cutie</p>
     </div>
 
     <script>
