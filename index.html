@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 2, Dandu!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 50%, #ff9a9e 100%);
+            font-family: 'Georgia', serif;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            color: #d63384;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .flower-container {
+            cursor: pointer;
+            position: relative;
+            width: 200px;
+            height: 250px;
+            margin: 0 auto;
+            transition: transform 0.3s ease;
+        }
+
+        .flower-container:hover {
+            transform: scale(1.05);
+        }
+
+        .stem {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 100px;
+            background: linear-gradient(to top, #228b22, #32cd32);
+            border-radius: 4px;
+        }
+
+        .leaf {
+            position: absolute;
+            width: 40px;
+            height: 20px;
+            background: #32cd32;
+            border-radius: 50% 0 50% 0;
+        }
+
+        .leaf-left {
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-100%) rotate(-30deg);
+        }
+
+        .leaf-right {
+            bottom: 60px;
+            left: 50%;
+            transform: rotate(30deg);
+        }
+
+        .flower-head {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 120px;
+        }
+
+        .petal {
+            position: absolute;
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+            border-radius: 50% 0 50% 0;
+            left: 50%;
+            top: 50%;
+            transform-origin: 0% 100%;
+            opacity: 0.9;
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .petal:nth-child(1) { transform: translate(-50%, -50%) rotate(0deg) translateY(-20px); }
+        .petal:nth-child(2) { transform: translate(-50%, -50%) rotate(45deg) translateY(-20px); }
+        .petal:nth-child(3) { transform: translate(-50%, -50%) rotate(90deg) translateY(-20px); }
+        .petal:nth-child(4) { transform: translate(-50%, -50%) rotate(135deg) translateY(-20px); }
+        .petal:nth-child(5) { transform: translate(-50%, -50%) rotate(180deg) translateY(-20px); }
+        .petal:nth-child(6) { transform: translate(-50%, -50%) rotate(225deg) translateY(-20px); }
+        .petal:nth-child(7) { transform: translate(-50%, -50%) rotate(270deg) translateY(-20px); }
+        .petal:nth-child(8) { transform: translate(-50%, -50%) rotate(315deg) translateY(-20px); }
+
+        .flower-center {
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            border-radius: 50%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        /* Bloomed state */
+        .bloomed .petal {
+            width: 55px;
+            height: 55px;
+        }
+
+        .bloomed .petal:nth-child(1) { transform: translate(-50%, -50%) rotate(0deg) translateY(-35px) scale(1.2); }
+        .bloomed .petal:nth-child(2) { transform: translate(-50%, -50%) rotate(45deg) translateY(-35px) scale(1.2); }
+        .bloomed .petal:nth-child(3) { transform: translate(-50%, -50%) rotate(90deg) translateY(-35px) scale(1.2); }
+        .bloomed .petal:nth-child(4) { transform: translate(-50%, -50%) rotate(135deg) translateY(-35px) scale(1.2); }
+        .bloomed .petal:nth-child(5) { transform: translate(-50%, -50%) rotate(180deg) translateY(-35px) scale(1.2); }
+        .bloomed .petal:nth-child(6) { transform: translate(-50%, -50%) rotate(225deg) translateY(-35px) scale(1.2); }
+        .bloomed .petal:nth-child(7) { transform: translate(-50%, -50%) rotate(270deg) translateY(-35px) scale(1.2); }
+        .bloomed .petal:nth-child(8) { transform: translate(-50%, -50%) rotate(315deg) translateY(-35px) scale(1.2); }
+
+        .bloomed .flower-center {
+            width: 45px;
+            height: 45px;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .click-hint {
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #d63384;
+            opacity: 0.8;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .valentine-question {
+            display: none;
+            margin-top: 30px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .valentine-question.show {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-text {
+            font-size: 2rem;
+            color: #d63384;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .yes-btn {
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+        }
+
+        .yes-btn:first-child {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+            color: white;
+            box-shadow: 0 4px 15px rgba(238, 90, 90, 0.4);
+        }
+
+        .yes-btn:last-child {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            color: #d63384;
+            box-shadow: 0 4px 15px rgba(255, 154, 158, 0.4);
+        }
+
+        .yes-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(238, 90, 90, 0.5);
+        }
+
+        .yes-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .celebration {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .celebration.show {
+            display: flex;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .celebration-text {
+            font-size: 3rem;
+            color: #d63384;
+            text-align: center;
+            animation: celebratePulse 0.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes celebratePulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 99;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 2rem;
+            animation: fall linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Floating hearts background */
+        .bg-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .bg-heart {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.2;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-hearts" id="bgHearts"></div>
+
+    <div class="container">
+        <h1 class="title">Happy 2, Dandu!</h1>
+
+        <div class="flower-container" id="flower" onclick="bloomFlower()">
+            <div class="flower-head" id="flowerHead">
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="flower-center"></div>
+            </div>
+            <div class="stem"></div>
+            <div class="leaf leaf-left"></div>
+            <div class="leaf leaf-right"></div>
+        </div>
+
+        <p class="click-hint" id="clickHint">Click the flower!</p>
+
+        <div class="valentine-question" id="question">
+            <p class="question-text">Will you be my Valentine?</p>
+            <div class="buttons">
+                <button class="yes-btn" onclick="celebrate()">YES</button>
+                <button class="yes-btn" onclick="celebrate()">YES!</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="celebration" id="celebration">
+        <div class="hearts" id="hearts"></div>
+        <p class="celebration-text">Yay! I love you, Dandu!</p>
+    </div>
+
+    <script>
+        // Create background hearts
+        function createBgHearts() {
+            const container = document.getElementById('bgHearts');
+            const hearts = ['❤️', '💕', '💗', '💖', '💘'];
+
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('span');
+                heart.className = 'bg-heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.top = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 6 + 's';
+                heart.style.animationDuration = (4 + Math.random() * 4) + 's';
+                container.appendChild(heart);
+            }
+        }
+
+        createBgHearts();
+
+        let bloomed = false;
+
+        function bloomFlower() {
+            if (bloomed) return;
+            bloomed = true;
+
+            const flowerHead = document.getElementById('flowerHead');
+            const clickHint = document.getElementById('clickHint');
+            const question = document.getElementById('question');
+
+            flowerHead.classList.add('bloomed');
+            clickHint.style.display = 'none';
+
+            setTimeout(() => {
+                question.classList.add('show');
+            }, 800);
+        }
+
+        function celebrate() {
+            const celebration = document.getElementById('celebration');
+            const heartsContainer = document.getElementById('hearts');
+
+            celebration.classList.add('show');
+
+            // Create falling hearts
+            const hearts = ['❤️', '💕', '💗', '💖', '💘', '💝', '💞'];
+
+            function createHeart() {
+                const heart = document.createElement('span');
+                heart.className = 'heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.fontSize = (1 + Math.random() * 2) + 'rem';
+                heart.style.animationDuration = (3 + Math.random() * 4) + 's';
+                heartsContainer.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 7000);
+            }
+
+            // Create hearts continuously
+            for (let i = 0; i < 30; i++) {
+                setTimeout(createHeart, i * 100);
+            }
+
+            setInterval(() => {
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(createHeart, i * 100);
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
